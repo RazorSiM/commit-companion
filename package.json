@@ -1,0 +1,52 @@
+{
+  "name": "commit-companion",
+  "version": "0.0.0",
+  "description": "AI commit messages from Perplexity AI API",
+  "keywords": [
+    "commit",
+    "git",
+    "message",
+    "ai",
+    "perplexity",
+    "api",
+    "cli"
+  ],
+  "homepage": "https://github.com/RazorSiM/commit-companion",
+  "repository": "RazorSiM/commit-companion",
+  "author": "Simone Colabufalo",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "commit-companion": "dist/cli.js",
+    "cc": "dist/cli.js"
+  },
+  "scripts": {
+    "biome:check": "biome check --apply .",
+    "biome:lint": "biome lint .",
+    "biome:format": "biome format . --write",
+    "type-check": "tsc --noEmit",
+    "build": "tsup",
+    "build:watch": "tsup --watch"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@types/node": "^20.11.7",
+    "citty": "^0.1.5",
+    "consola": "^3.2.3",
+    "dotenv": "^16.4.1",
+    "execa": "^8.0.1",
+    "ofetch": "^1.3.3",
+    "rc9": "^2.1.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "pnpm@8.14.3+sha256.2d0363bb6c314daa67087ef07743eea1ba2e2d360c835e8fec6b5575e4ed9484",
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}
