@@ -1,5 +1,4 @@
 name: Release
-
 on:
   push:
     branches:
@@ -9,6 +8,9 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
+    permissions:
+      contents: write
+      packages: write
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +36,7 @@ jobs:
         uses: changesets/action@v1
         with:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm publish
+          publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
