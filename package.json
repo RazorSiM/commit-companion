@@ -1,6 +1,6 @@
 {
   "name": "@razorsim/commit-companion",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "AI commit messages from Perplexity AI API",
   "keywords": [
     "commit",
@@ -45,7 +45,6 @@
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
     "@changesets/cli": "^2.27.1"
-
   },
   "packageManager": "pnpm@8.14.3+sha256.2d0363bb6c314daa67087ef07743eea1ba2e2d360c835e8fec6b5575e4ed9484",
   "release": {
