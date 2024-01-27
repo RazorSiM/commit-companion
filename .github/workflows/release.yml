@@ -8,14 +8,12 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    permissions:
-      contents: write
-      packages: write
+    permissions: write-all
     name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js lts/Iron
         uses: actions/setup-node@v4
