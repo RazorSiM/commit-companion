@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.1.2
+
+### Patch Changes
+
+- 46780fb: fix: wrong import in sdk
+
 ## 0.1.1
 
 ### Patch Changes
