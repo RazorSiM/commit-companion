@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.1.3
+
+### Patch Changes
+
+- ce832d6: fix: update shebang to be more portable
+
 ## 0.1.2
 
 ### Patch Changes
