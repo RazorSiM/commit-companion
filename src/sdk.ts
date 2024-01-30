@@ -1,9 +1,9 @@
 import consola from "consola";
 import { ofetch } from "ofetch";
-import { read } from "rc9";
+import { readConfig } from "./config";
 import { generatePrompt } from "./prompt";
 
-const config = read();
+const config = readConfig();
 
 const url = "https://api.perplexity.ai/chat/completions";
 
