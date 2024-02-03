@@ -49,7 +49,7 @@
     "typescript": "^5.3.3",
     "@changesets/cli": "^2.27.1"
   },
-  "packageManager": "pnpm@8.14.3+sha256.2d0363bb6c314daa67087ef07743eea1ba2e2d360c835e8fec6b5575e4ed9484",
+  "packageManager": "pnpm@8.15.1+sha256.245fe901f8e7fa8782d7f17d32b6a83995e2ae03984cb5b62b8949bfdc27c7b5",
   "release": {
     "branches": [
       "main"
