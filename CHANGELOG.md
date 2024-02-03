@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.1.4
+
+### Patch Changes
+
+- 286bffe: Push tags when releasing
+
 ## 0.1.3
 
 ### Patch Changes
