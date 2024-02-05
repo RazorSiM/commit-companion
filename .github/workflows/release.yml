@@ -68,6 +68,8 @@ jobs:
       - name: Create Github Release
         run: |
           gh release create ${{ env.VERSION }} -t ${{ env.VERSION }} -n "${{ env.RELEASE_BODY }}"
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN}}
           
 
       
