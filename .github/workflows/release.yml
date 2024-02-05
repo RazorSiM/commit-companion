@@ -1,20 +1,24 @@
-name: Release
+name: Release and Publish
+
 on:
   push:
     branches:
       - main
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 jobs:
   release:
-    permissions: write-all
     name: Release
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'Version Packages')
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Set up Git user
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+  
       - name: Setup Node.js lts/Iron
         uses: actions/setup-node@v4
         with:
@@ -25,15 +29,46 @@ jobs:
       
       - name: Install the right package manager
         run: corepack install
-      
+
       - name: Install dependencies
         run: pnpm install
 
-      - name: Create Release Pull Request
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          commit: Version Packages
+      - name: Build
+        run: pnpm build
+
+      - name: Create Tags
+        run: pnpm changeset tag
+      
+      - name: Push tags
+        run: git push origin --tags
+
+      - name: Create .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish
+        run: pnpm publish
+
+      - name: Get the latest version
+        id: get_version
+        run: |
+          VERSION=$(git tag | sort -V | tail -n 1)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Get the release body
+        id: get_release_body
+        run: |
+          RELEASE_BODY=$(awk -v version="${{ env.VERSION }}" 'BEGIN {print_it=0} /^## / {print_it=0} $0 ~ "## " version {print_it=1} print_it' CHANGELOG.md)
+          echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
+
+      - name: Create Github Release
+        run: |
+          gh release create ${{ env.VERSION }} -t ${{ env.VERSION }} -n "${{ env.RELEASE_BODY }}"
+          
+
+      
+  
