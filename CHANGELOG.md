@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.3
+
+### Patch Changes
+
+- c81da60: trigger ci
+
 ## 0.2.2
 
 ### Patch Changes
