@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+
+      - name: Set up Git user
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
   
       - name: Setup Node.js lts/Iron
         uses: actions/setup-node@v4
