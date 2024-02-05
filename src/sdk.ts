@@ -11,6 +11,7 @@ export const supportedModels = [
 	"pplx-7b-chat",
 	"pplx-70b-chat",
 	"codellama-34b-instruct",
+	"codellama-70b-instruct",
 	"llama-2-70b-chat",
 	"mistral-7b-instruct",
 	"mixtral-8x7b-instruct",
