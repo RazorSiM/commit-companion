@@ -35,7 +35,7 @@ jobs:
         run: pnpm changeset tag
       
       - name: Push tags
-        run: git push --follow-tags
+        run: git push origin --tags
 
       - name: Create .npmrc
         run: |
