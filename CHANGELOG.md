@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.2
+
+### Patch Changes
+
+- fd00e0a: trigger pipeline to test publish and tags
+
 ## 0.2.1
 
 ### Patch Changes
