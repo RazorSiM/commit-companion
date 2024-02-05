@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.5
+
+### Patch Changes
+
+- ad1142f: fix ci workflow by issuing the GH_TOKEN
+
 ## 0.2.4
 
 ### Patch Changes
