@@ -1,20 +1,19 @@
-name: Release
+name: Publish Package
+
 on:
   push:
     branches:
       - main
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 jobs:
-  release:
-    permissions: write-all
-    name: Release
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'Version Packages')
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-
+  
       - name: Setup Node.js lts/Iron
         uses: actions/setup-node@v4
         with:
@@ -25,15 +24,27 @@ jobs:
       
       - name: Install the right package manager
         run: corepack install
-      
+
       - name: Install dependencies
         run: pnpm install
 
-      - name: Create Release Pull Request
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          commit: Version Packages
+      - name: Build
+        run: pnpm build
+
+      - name: Create Tags
+        run: pnpm changeset tag
+      
+      - name: Push tags
+        run: git push --follow-tags
+
+      - name: Create .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish
+        run: pnpm publish
+  
