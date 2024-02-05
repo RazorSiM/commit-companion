@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.1
+
+### Patch Changes
+
+- ba0d306: trigger ci to test release process
+
 ## 0.2.0
 
 ### Minor Changes
