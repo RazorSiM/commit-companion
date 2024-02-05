@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.0
+
+### Minor Changes
+
+- 8a6c7b1: Add codellama-70b-instruct to the supported models array
+
 ## 0.1.4
 
 ### Patch Changes
