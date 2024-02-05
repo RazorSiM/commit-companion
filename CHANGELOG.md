@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.4
+
+### Patch Changes
+
+- 970b900: automate the release creation through github workflows
+
 ## 0.2.3
 
 ### Patch Changes
