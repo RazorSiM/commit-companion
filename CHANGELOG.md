@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.2.6
+
+### Patch Changes
+
+- 15eaa36: fix a bug preventing the ci to get the correct release message
+
 ## 0.2.5
 
 ### Patch Changes
