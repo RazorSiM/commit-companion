@@ -1,17 +1,27 @@
 {
 	"name": "@razorsim/commit-companion",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"description": "AI commit messages from Perplexity AI API",
 	"publishConfig": {
 		"access": "public"
 	},
-	"keywords": ["commit", "git", "message", "ai", "perplexity", "api", "cli"],
+	"keywords": [
+		"commit",
+		"git",
+		"message",
+		"ai",
+		"perplexity",
+		"api",
+		"cli"
+	],
 	"homepage": "https://github.com/RazorSiM/commit-companion",
 	"repository": "RazorSiM/commit-companion",
 	"author": "Simone Colabufalo",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"bin": {
 		"commit-companion": "dist/cli.js",
 		"cmt": "dist/cli.js"
@@ -40,6 +50,8 @@
 	},
 	"packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589",
 	"release": {
-		"branches": ["main"]
+		"branches": [
+			"main"
+		]
 	}
 }

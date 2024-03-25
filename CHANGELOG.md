@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.4.2
+
+### Patch Changes
+
+- cb224f3: update readme
+
 ## 0.4.1
 
 ### Patch Changes
