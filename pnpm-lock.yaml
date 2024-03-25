@@ -11,6 +11,9 @@ devDependencies:
   '@changesets/cli':
     specifier: ^2.27.1
     version: 2.27.1
+  '@evilmartians/lefthook':
+    specifier: ^1.6.7
+    version: 1.6.7
   '@types/node':
     specifier: ^20.11.30
     version: 20.11.30
@@ -544,6 +547,14 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@evilmartians/lefthook@1.6.7:
+    resolution: {integrity: sha512-nRCNWUl4xxkIwzChkARezEGuIcm6l2aywDPR3C4f8bGTzDJhVtEPcByqrOqPJ9emS7MnYz9WKI/NFdIsph/apw==}
+    cpu: [x64, arm64, ia32]
+    os: [darwin, linux, win32]
+    hasBin: true
+    requiresBuild: true
+    dev: true
 
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
