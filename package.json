@@ -1,6 +1,6 @@
 {
 	"name": "@razorsim/commit-companion",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"description": "AI commit messages from Perplexity AI API",
 	"publishConfig": {
 		"access": "public"

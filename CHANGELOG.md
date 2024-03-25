@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.4.1
+
+### Patch Changes
+
+- 98c5f66: fix changelog, it was preventing the ci to run smoothly"
+
 ## 0.4.0
 
 ### Minor Changes
