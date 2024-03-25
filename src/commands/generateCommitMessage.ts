@@ -18,6 +18,11 @@ export const generateCommand = defineCommand({
 			description: "Max length of the commit message",
 			default: "150",
 		},
+		semantic: {
+			type: "boolean",
+			description: "Use semantic commit message",
+			default: false,
+		},
 		debug: {
 			type: "boolean",
 			description: "Debug mode",
@@ -53,7 +58,12 @@ export const generateCommand = defineCommand({
 			consola.info("No staged files");
 			return;
 		}
-		const sdkRes = await getCommitMessage(gitRes.diff, config.model, maxLen);
+		const sdkRes = await getCommitMessage(
+			gitRes.diff,
+			config.model,
+			maxLen,
+			args.semantic,
+		);
 		if (sdkRes.choices[0].message.content) {
 			consola.success(sdkRes.choices[0].message.content);
 			if (args.debug) {

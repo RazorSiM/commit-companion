@@ -20,15 +20,19 @@ const commitTypes = `Choose a type from the type-to-description JSON below that 
 	2,
 )}`;
 
-export function generatePrompt(locale: string, maxLength: number) {
-	return [
+export function generatePrompt(
+	locale: string,
+	maxLength: number,
+	semantic: boolean,
+): string {
+	const prompt = [
 		"Generate a concise git commit message written in present tense for the following code diff with the given specifications below:",
 		`Message language: ${locale}`,
 		`Commit message must be a maximum of ${maxLength} characters.`,
 		"Exclude anything unnecessary such as translation. Your entire response will be passed directly into git commit.",
-		commitFormat,
-		commitTypes,
-	]
-		.filter(Boolean)
-		.join("\n");
+	];
+	if (semantic) {
+		prompt.push(commitFormat, commitTypes);
+	}
+	return prompt.filter(Boolean).join("\n");
 }
