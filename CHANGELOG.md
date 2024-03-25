@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- 33cffff: add the `--semantic` flag to the generate command, enabling the semantic commit prompt generation"
+- 33cffff: add the `--semantic` flag to the generate command, enabling the semantic commit prompt generation
 
 ## 0.3.0
 
