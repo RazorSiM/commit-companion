@@ -1,7 +1,7 @@
 import { defineCommand } from "citty";
 import { readConfig, updateConfig } from "../config";
 import { consola } from "../consola";
-import { SupportedModel, supportedModels } from "../sdk";
+import { type SupportedModel, supportedModels } from "../sdk";
 
 const config = readConfig();
 
