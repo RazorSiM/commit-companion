@@ -1,5 +1,15 @@
 # @razorsim/commit-companion
 
+## 0.3.0
+
+### Minor Changes
+
+- 815c475: updated the models for the Perplexity API
+
+### Patch Changes
+
+- d4477c4: update dependencies
+
 ## 0.2.6
 
 ### Patch Changes
