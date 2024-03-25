@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.4.0
+
+### Minor Changes
+
+- 33cffff: add the `--semantic` flag to the generate command, enabling the semantic commit prompt generation"
+
 ## 0.3.0
 
 ### Minor Changes
