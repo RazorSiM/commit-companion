@@ -15,15 +15,20 @@ Before the first usage, you need to run the `setup` command to configure the two
 The model name is optional, if you don't provide it, the default model will be used.
 
 Models supported are the ones listed in the [Perplexity AI documentation](https://docs.perplexity.ai/docs/model-cards):
-- `pplx-7b-chat` (default)
-- `pplx-70b-chat`
+- `sonar-small-chat` (default)
+- `sonar-medium-chat`
 - `codellama-34b-instruct`
-- `llama-2-70b-chat`
 - `mistral-7b-instruct`
 - `mixtral-8x7b-instruct`
 
 ```bash
 commit-companion setup -k <your Perplexity API key> -m <model name>
+```
+
+Optionally, you can use the `--semantic` flag if you want to use the semantic commit message format.
+
+```bash
+commit-companion generate --semantic
 ```
 
 ## Pitfalls
@@ -53,5 +58,3 @@ pnpm biome:check
 pnpm biome:format
 pnpm biome:lint
 ```
-
-Pre-commit hooks are not configured yet, so you need to run the checks manually.
