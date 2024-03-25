@@ -21,6 +21,7 @@ export async function getCommitMessage(
 	diff: string,
 	model: SupportedModel,
 	maxLength: number,
+	semantic = false,
 ) {
 	try {
 		const response = await ofetch(url, {
@@ -33,7 +34,10 @@ export async function getCommitMessage(
 			body: {
 				model: model,
 				messages: [
-					{ role: "system", content: generatePrompt("english", maxLength) },
+					{
+						role: "system",
+						content: generatePrompt("english", maxLength, semantic),
+					},
 					{ role: "user", content: diff },
 				],
 				max_tokens: 200,
