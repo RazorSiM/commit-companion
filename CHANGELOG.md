@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.4.3
+
+### Patch Changes
+
+- 7a32484: remove postinstall script
+
 ## 0.4.2
 
 ### Patch Changes
