@@ -99,11 +99,11 @@ export const generateCommand = defineCommand({
 		if (!areFilesStaged.length) {
 			messages.fail.noStagedFiles();
 			const files = await filesReadyToBeStaged();
-			if (!files.length) {
+			if (!files.value.length) {
 				messages.fail.noFilesToStage();
 				return;
 			}
-			messages.box.stageFiles(files);
+			messages.box.stageFiles(files.raw);
 			const prompt = await messages.prompt.stageFiles();
 			if (prompt) {
 				await stageFiles();
