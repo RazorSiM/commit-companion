@@ -36,7 +36,7 @@
 		"dependencies": "lefthook install"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.6.2",
+		"@biomejs/biome": "1.6.3",
 		"@changesets/cli": "^2.27.1",
 		"@evilmartians/lefthook": "^1.6.7",
 		"@types/node": "^20.11.30",
