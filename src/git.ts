@@ -30,7 +30,10 @@ export async function getStagedFiles(): Promise<string[]> {
 	return stdout.trim().split("\n");
 }
 
-export async function filesReadyToBeStaged(): Promise<{value: string[], raw: string}> {
+export async function filesReadyToBeStaged(): Promise<{
+	value: string[];
+	raw: string;
+}> {
 	const { stdout } = await execa("git", ["diff", "--name-only"]);
 	if (!stdout.trim()) {
 		return {
