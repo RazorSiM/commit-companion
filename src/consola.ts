@@ -95,10 +95,10 @@ export const messages = {
 				message: config,
 			});
 		},
-		stageFiles: (files: string[]) => {
+		stageFiles: (files: unknown) => {
 			consola.box({
 				title: "Files with changes ready to be staged",
-				message: files.join("\n"),
+				message: files,
 			});
 		},
 	},
