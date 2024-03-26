@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.5.2
+
+### Patch Changes
+
+- 5c23009: if the consola box title is larger than the width of the box, a fatal error occurs. As a fix, padding has been added and the titles have been shortened
+
 ## 0.5.1
 
 ### Patch Changes
