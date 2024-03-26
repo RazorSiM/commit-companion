@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.5.1
+
+### Patch Changes
+
+- 209be60: fix a bug affecting the print of the files ready to be staged
+
 ## 0.5.0
 
 ### Minor Changes
