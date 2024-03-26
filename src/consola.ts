@@ -91,14 +91,20 @@ export const messages = {
 	box: {
 		config: (config: unknown) => {
 			consola.box({
-				title: "Current configuration",
+				title: "Config",
 				message: config,
+				style: {
+					padding: 10,
+				},
 			});
 		},
 		stageFiles: (files: unknown) => {
 			consola.box({
-				title: "Files with changes ready to be staged",
+				title: "Files",
 				message: files,
+				style: {
+					padding: 10,
+				},
 			});
 		},
 	},
