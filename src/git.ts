@@ -1,6 +1,6 @@
 import { execa } from "execa";
-
-export async function isGitRepo() {
+import { consola } from "./consola";
+export async function isGitRepo(): Promise<string> {
 	const { stdout, failed } = await execa(
 		"git",
 		["rev-parse", "--show-toplevel"],
@@ -14,7 +14,7 @@ export async function isGitRepo() {
 	return stdout;
 }
 
-function excludeGlobFromDiff(glob: string) {
+function excludeGlobFromDiff(glob: string): string {
 	return `:(exclude)${glob}`;
 }
 
@@ -22,7 +22,33 @@ const defaultExcludedGlobs = ["*-lock.*", "*.lock", "node_modules", ".git"].map(
 	excludeGlobFromDiff,
 );
 
-export async function getStagedDiff(excludedFiles?: string[]) {
+export async function getStagedFiles(): Promise<string[]> {
+	const { stdout } = await execa("git", ["diff", "--name-only", "--cached"]);
+	if (!stdout.trim()) {
+		return [];
+	}
+	return stdout.trim().split("\n");
+}
+
+export async function filesReadyToBeStaged(): Promise<string[]> {
+	const { stdout } = await execa("git", ["diff", "--name-only"]);
+	if (!stdout.trim()) {
+		return [];
+	}
+	return stdout.trim().split("\n");
+}
+
+export async function stageFiles() {
+	await execa("git", ["add", "."]);
+}
+
+export async function getStagedDiff(excludedFiles?: string[]): Promise<
+	| {
+			files: string[];
+			diff: string;
+	  }
+	| undefined
+> {
 	const diffCached = ["diff", "--cached", "--diff-algorithm=minimal"];
 	const { stdout: files } = await execa("git", [
 		...diffCached,
@@ -47,8 +73,12 @@ export async function getStagedDiff(excludedFiles?: string[]) {
 	};
 }
 
-export function getDetectedMessage(files: string[]) {
+export function getDetectedMessage(files: string[]): string {
 	return `Detected ${files.length.toLocaleString()} staged file${
 		files.length > 1 ? "s" : ""
 	}`;
+}
+
+export async function commitFiles(message: string) {
+	await execa("git", ["commit", "-m", message]);
 }

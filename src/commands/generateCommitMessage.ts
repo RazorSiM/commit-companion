@@ -1,11 +1,41 @@
 import { defineCommand } from "citty";
 import { readConfig, updateConfig } from "../config";
-import { consola } from "../consola";
-import { getStagedDiff, isGitRepo } from "../git";
-import { getCommitMessage, supportedModels } from "../sdk";
+import { consola, messages } from "../consola";
+import {
+	commitFiles,
+	filesReadyToBeStaged,
+	getStagedDiff,
+	getStagedFiles,
+	isGitRepo,
+	stageFiles,
+} from "../git";
+import { type SupportedModel, getCommitMessage, supportedModels } from "../sdk";
 
 const config = readConfig();
 const defaultModel = supportedModels[0];
+
+async function generate(
+	diff: string,
+	model: SupportedModel,
+	maxLen: number,
+	semantic: boolean,
+	debug: boolean,
+) {
+	messages.start.generating(config.model ?? defaultModel);
+	const sdkRes = await getCommitMessage(diff, model, maxLen, semantic);
+	if (sdkRes.choices[0].message.content) {
+		messages.success.generated(sdkRes.choices[0].message.content);
+		if (debug) {
+			consola.log(JSON.stringify(sdkRes, null, 2));
+		}
+		return sdkRes;
+	}
+	messages.fail.noMessageGenerated();
+	if (debug) {
+		consola.info(JSON.stringify(sdkRes, null, 2));
+	}
+	return;
+}
 
 export const generateCommand = defineCommand({
 	meta: {
@@ -16,64 +46,106 @@ export const generateCommand = defineCommand({
 		maxLen: {
 			type: "string",
 			description: "Max length of the commit message",
-			default: "150",
 		},
 		semantic: {
 			type: "boolean",
 			description: "Use semantic commit message",
-			default: false,
 		},
 		debug: {
 			type: "boolean",
 			description: "Debug mode",
-			default: false,
 		},
 	},
 	async run({ args }) {
 		if (!config.api) {
-			consola.fail("You need to set your api key first!");
+			messages.fail.missingApiKey();
 			return;
 		}
 		const isGit = await isGitRepo();
 		if (!isGit) {
-			consola.fail("This is not a git repository!");
+			messages.fail.noGitRepository();
 			return;
 		}
 		if (!config.model) {
-			consola.info(`Using default model: ${defaultModel}`);
+			messages.info.defaultModel(defaultModel);
 			updateConfig({ model: defaultModel });
 		} else {
-			consola.info(`Generating with model: ${config.model}`);
+			messages.info.model(config.model);
 		}
 
-		const maxLen = Number.parseInt(args.maxLen);
+		let maxLen: number;
+		let semantic: boolean;
+
+		if (!args.maxLen) {
+			const prompt = await messages.prompt.setMaxLenPrompt();
+			maxLen = Number.parseInt(prompt);
+		} else {
+			maxLen = Number.parseInt(args.maxLen);
+		}
+
 		if (maxLen < 0 || Number.isNaN(maxLen)) {
-			consola.fail("Invalid maxLen");
+			messages.fail.invalidMaxLen(args.maxLen);
 			return;
 		}
 
-		consola.info("Getting the diff for staged files...");
+		if (args.semantic === undefined) {
+			const prompt = await messages.prompt.setSemanticPrompt();
+			semantic = prompt;
+		} else {
+			semantic = args.semantic;
+		}
+
+		const areFilesStaged = await getStagedFiles();
+		if (!areFilesStaged.length) {
+			messages.fail.noStagedFiles();
+			const files = await filesReadyToBeStaged();
+			if (!files.length) {
+				messages.fail.noFilesToStage();
+				return;
+			}
+			messages.box.stageFiles(files);
+			const prompt = await messages.prompt.stageFiles();
+			if (prompt) {
+				await stageFiles();
+			} else {
+				return;
+			}
+		}
+		messages.start.gettingDif();
 		const gitRes = await getStagedDiff();
 		if (!gitRes) {
-			consola.info("No staged files");
+			messages.fail.noStagedFiles();
 			return;
 		}
-		const sdkRes = await getCommitMessage(
+		let response = await generate(
 			gitRes.diff,
-			config.model,
+			config.model ?? defaultModel,
 			maxLen,
-			args.semantic,
+			semantic,
+			args.debug ?? false,
 		);
-		if (sdkRes.choices[0].message.content) {
-			consola.success(sdkRes.choices[0].message.content);
-			if (args.debug) {
-				consola.info(JSON.stringify(sdkRes, null, 2));
-			}
-		} else {
-			consola.fail("Failed to generate commit message");
-			if (args.debug) {
-				consola.info(JSON.stringify(sdkRes, null, 2));
+		if (!response) {
+			return;
+		}
+		let regenerate = true;
+		while (regenerate) {
+			regenerate = await messages.prompt.regenerate();
+			if (regenerate) {
+				response = await generate(
+					gitRes.diff,
+					config.model ?? defaultModel,
+					maxLen,
+					semantic,
+					args.debug ?? false,
+				);
 			}
 		}
+
+		const prompt = await messages.prompt.commitFiles();
+		if (prompt) {
+			await commitFiles(response);
+			return;
+		}
+		return;
 	},
 });

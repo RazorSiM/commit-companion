@@ -1,6 +1,6 @@
-import consola from "consola";
 import { ofetch } from "ofetch";
 import { readConfig } from "./config";
+import { consola, messages } from "./consola";
 import { generatePrompt } from "./prompt";
 
 const config = readConfig();
@@ -49,6 +49,7 @@ export async function getCommitMessage(
 		});
 		return response;
 	} catch (e) {
+		messages.error.generic();
 		consola.fatal(e);
 	}
 }
