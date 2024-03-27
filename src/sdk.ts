@@ -31,6 +31,7 @@ export async function getCommitMessage(
 				"content-type": "application/json",
 				authorization: `Bearer ${config.api}`,
 			},
+			responseType: "stream",
 			body: {
 				model: model,
 				messages: [
@@ -40,10 +41,10 @@ export async function getCommitMessage(
 					},
 					{ role: "user", content: diff },
 				],
-				max_tokens: 200,
+				max_tokens: 2000,
 				temperature: 0.7,
 				top_p: 1,
-				stream: false,
+				stream: true,
 				presence_penalty: 0,
 			},
 		});

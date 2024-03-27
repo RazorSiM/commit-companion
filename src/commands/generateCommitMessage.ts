@@ -20,21 +20,53 @@ async function generate(
 	maxLen: number,
 	semantic: boolean,
 	debug: boolean,
-) {
-	messages.start.generating(config.model ?? defaultModel);
-	const sdkRes = await getCommitMessage(diff, model, maxLen, semantic);
-	if (sdkRes.choices[0].message.content) {
-		messages.success.generated(sdkRes.choices[0].message.content);
-		if (debug) {
-			consola.log(JSON.stringify(sdkRes, null, 2));
+): Promise<string> {
+	try {
+		messages.start.generating(config.model ?? defaultModel);
+		const stream = await getCommitMessage(diff, model, maxLen, semantic);
+		if (!stream) {
+			throw new Error("Failed to get stream");
 		}
-		return sdkRes;
+
+		const reader = stream.getReader();
+		let buffer = "";
+		let message = "";
+
+		while (true) {
+			const { done, value } = await reader.read();
+			if (done) break;
+
+			buffer += new TextDecoder().decode(value);
+			const lines = buffer.split("\n");
+
+			for (let i = 0; i < lines.length - 1; i++) {
+				const line = lines[i].trim();
+				if (line === "") continue;
+
+				const data = line.replace(/^data: /, "");
+				if (data === "[DONE]") {
+					return message; // Stream finished, return the accumulated message
+				}
+
+				const parsed = JSON.parse(data);
+				if (debug) {
+					consola.info(parsed);
+				}
+				const token = parsed.choices[0].delta.content;
+				if (token) {
+					message += token;
+					process.stdout.write(token);
+				}
+			}
+			buffer = lines[lines.length - 1];
+		}
+
+		return message;
+	} catch (e) {
+		messages.error.generic();
+		consola.fatal(e);
+		throw e;
 	}
-	messages.fail.noMessageGenerated();
-	if (debug) {
-		consola.info(JSON.stringify(sdkRes, null, 2));
-	}
-	return;
 }
 
 export const generateCommand = defineCommand({
@@ -117,21 +149,23 @@ export const generateCommand = defineCommand({
 			messages.fail.noStagedFiles();
 			return;
 		}
-		let response = await generate(
+		let message: string;
+		message = await generate(
 			gitRes.diff,
 			config.model ?? defaultModel,
 			maxLen,
 			semantic,
 			args.debug ?? false,
 		);
-		if (!response) {
+		if (!message) {
 			return;
 		}
+
 		let regenerate = true;
 		while (regenerate) {
 			regenerate = await messages.prompt.regenerate();
 			if (regenerate) {
-				response = await generate(
+				message = await generate(
 					gitRes.diff,
 					config.model ?? defaultModel,
 					maxLen,
@@ -143,7 +177,7 @@ export const generateCommand = defineCommand({
 
 		const prompt = await messages.prompt.commitFiles();
 		if (prompt) {
-			await commitFiles(response);
+			await commitFiles(message);
 			return;
 		}
 		return;
