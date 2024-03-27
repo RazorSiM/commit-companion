@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 0.6.0
+
+### Minor Changes
+
+- 4312c2e: support streams for reading api response
+
 ## 0.5.2
 
 ### Patch Changes
