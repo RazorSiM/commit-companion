@@ -1,5 +1,5 @@
 import { createConsola } from "consola";
-import { supportedModels } from "./sdk";
+import { OllamaOptions, PerplexityOptions } from "./sdk";
 
 export const consola = createConsola({
 	fancy: true,
@@ -22,17 +22,39 @@ async function overwriteApiKeyPrompt() {
 	);
 }
 
-async function setApiKeyPrompt() {
+async function setApiKeyPrompt(initialValue = "") {
 	return await consola.prompt("Enter your Perplexity AI API key:", {
 		type: "text",
 		placeholder: "API key",
+		initial: initialValue,
 	});
 }
 
-async function setModelPrompt() {
+async function setPerplexityModelPrompt() {
 	return await consola.prompt("Please choose one of the `following models`:", {
 		type: "select",
-		options: [...supportedModels],
+		options: [...PerplexityOptions.models, "custom"],
+	});
+}
+
+async function setOllamaModelPrompt() {
+	return await consola.prompt("Please choose one of the `following models`:", {
+		type: "select",
+		options: ["custom", ...OllamaOptions.models],
+	});
+}
+
+async function setCustomModelPrompt() {
+	return await consola.prompt("Enter the custom model:", {
+		type: "text",
+		placeholder: "Model",
+	});
+}
+
+async function setBackendPrompt() {
+	return await consola.prompt("Please choose one of the following backends:", {
+		type: "select",
+		options: ["perplexity", "ollama", "custom"],
 	});
 }
 
@@ -71,6 +93,13 @@ async function commitFiles() {
 	);
 }
 
+async function setUrlPrompt(initialValue = "") {
+	return await consola.prompt("Enter the URL of the API:", {
+		type: "text",
+		placeholder: "URL",
+		initial: initialValue,
+	});
+}
 async function regenerate() {
 	return await consola.prompt("Would you like to regenerate the message?", {
 		type: "confirm",
@@ -81,9 +110,13 @@ export const messages = {
 	prompt: {
 		overwriteApiKeyPrompt,
 		setApiKeyPrompt,
-		setModelPrompt,
+		setPerplexityModelPrompt,
+		setOllamaModelPrompt,
+		setCustomModelPrompt,
 		setSemanticPrompt,
 		setMaxLenPrompt,
+		setUrlPrompt,
+		setBackendPrompt,
 		stageFiles,
 		commitFiles,
 		regenerate,
@@ -117,17 +150,24 @@ export const messages = {
 		generated: (message: string) => consola.success(`\`${message}\``),
 	},
 	info: {
-		api: (api: string) =>
-			consola.info(`Your api key has been set to \`${api}\`.`),
+		apiKey: (apiKey: string) =>
+			consola.info(`Your api key has been set to \`${apiKey}\`.`),
 		model: (model: string) =>
 			consola.info(`Your model has been set to \`${model}\`.`),
 		defaultModel: (model: string) =>
 			consola.info(`Using default model: \`${model}\`.`),
+		backend: (backend: string) =>
+			consola.info(`Using backend: \`${backend}\`.`),
+		url: (url: string) => consola.info(`Using url: \`${url}\`.`),
 	},
 	fail: {
+		invalidBackend: (backend: string) =>
+			consola.fail(`The backend \`${backend}\` is not supported.`),
 		invalidModel: (model: string) =>
 			consola.fail(`The model \`${model}\` is not supported.`),
+		missingUrl: () => consola.fail("You need to set your url first."),
 		missingApiKey: () => consola.fail("You need to set your api key first."),
+		missingModel: () => consola.fail("You need to set your model first."),
 		noGitRepository: () => consola.fail("This is not a git repository."),
 		invalidMaxLen: (maxLen: unknown) =>
 			consola.fail(`Invalid maxLen: ${maxLen}.`),

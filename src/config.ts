@@ -1,11 +1,13 @@
 import { readUser, updateUser } from "rc9";
-import type { SupportedModel } from "./sdk";
 
 export const configName = ".commit-companion";
 
+export type BackendPrompt = "ollama" | "perplexity" | "custom";
 export interface UserConfiguration {
-	api?: string;
-	model?: SupportedModel;
+	apiKey?: string;
+	model?: string;
+	backend?: BackendPrompt;
+	url?: string;
 }
 
 export function readConfig(): UserConfiguration {

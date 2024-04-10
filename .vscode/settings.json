@@ -4,5 +4,14 @@
 		"quickfix.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
 	},
-	"cSpell.words": ["citty", "execa", "mixtral", "ofetch", "pplx"]
+	"editor.formatOnSave": true,
+	"cSpell.words": [
+		"citty",
+		"execa",
+		"mixtral",
+		"ofetch",
+		"ollama",
+		"openai",
+		"pplx"
+	]
 }
