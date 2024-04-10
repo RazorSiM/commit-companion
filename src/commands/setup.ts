@@ -1,8 +1,13 @@
 import { defineCommand } from "citty";
-import { type UserConfiguration, readConfig, updateConfig } from "../config";
+import {
+	type BackendPrompt,
+	type UserConfiguration,
+	readConfig,
+	updateConfig,
+} from "../config";
 import { consola } from "../consola";
 import { messages } from "../consola";
-import { type SupportedModel, supportedModels } from "../sdk";
+import { OllamaOptions, PerplexityOptions } from "../sdk";
 
 export const setupCommand = defineCommand({
 	meta: {
@@ -10,6 +15,11 @@ export const setupCommand = defineCommand({
 		description: "Setup commit companion",
 	},
 	args: {
+		url: {
+			type: "string",
+			description: "Set the URL of the API (if using ollama backend)",
+			alias: "u",
+		},
 		apiKey: {
 			type: "string",
 			description: "Set your Perplexity AI API key",
@@ -31,46 +41,67 @@ export const setupCommand = defineCommand({
 		if (args.info) {
 			const config = readConfig();
 			messages.box.config(config);
+			return;
 		}
 		if (args.apiKey) {
-			updateConfig({ api: args.apiKey });
-			messages.info.api(args.apiKey);
+			updateConfig({ apiKey: args.apiKey });
+			messages.info.apiKey(args.apiKey);
 		}
+
 		if (args.model) {
-			if (supportedModels.includes(args.model as SupportedModel)) {
-				updateConfig({ model: args.model as SupportedModel });
-				messages.info.model(args.model);
-			} else {
-				messages.fail.invalidModel(args.model);
-				const model = await messages.prompt.setModelPrompt();
-				updateConfig({ model });
-				messages.info.model(model);
-			}
-		} else {
+			updateConfig({ model: args.model });
+			messages.info.model(args.model);
+		}
+		if (args.url) {
+			updateConfig({ url: args.url });
+			messages.info.url(args.url);
+		}
+
+		if (!args.apiKey && !args.model && !args.url) {
 			let config: UserConfiguration;
-			let overwriteApiKey = false;
-			let api: string;
+			let apiKey: string | undefined;
+			let url: string | undefined;
+			let model: string | undefined;
 			try {
 				config = readConfig();
 			} catch (e) {
 				consola.fatal(e);
 				return;
 			}
-			if (!config.api) {
-				api = await messages.prompt.setApiKeyPrompt();
-				updateConfig({ api });
-			} else {
-				overwriteApiKey = await messages.prompt.overwriteApiKeyPrompt();
-				if (overwriteApiKey) {
-					api = await messages.prompt.setApiKeyPrompt();
-					updateConfig({ api });
-				} else {
-					api = config.api;
+
+			const backend =
+				(await messages.prompt.setBackendPrompt()) as BackendPrompt;
+			switch (backend) {
+				case "ollama": {
+					url = await messages.prompt.setUrlPrompt(OllamaOptions.defaultUrl);
+					apiKey = await messages.prompt.setApiKeyPrompt(config.apiKey);
+					model = await messages.prompt.setOllamaModelPrompt();
+					break;
+				}
+				case "perplexity": {
+					url = await messages.prompt.setUrlPrompt(
+						PerplexityOptions.defaultUrl,
+					);
+					apiKey = await messages.prompt.setApiKeyPrompt(config.apiKey);
+					model = await messages.prompt.setPerplexityModelPrompt();
+					break;
+				}
+				case "custom": {
+					url = await messages.prompt.setUrlPrompt();
+					apiKey = await messages.prompt.setApiKeyPrompt();
+					model = await messages.prompt.setCustomModelPrompt();
+					break;
 				}
 			}
-			const model = await messages.prompt.setModelPrompt();
-			updateConfig({ model });
-			messages.info.api(api);
+			if (model === "custom") {
+				model = await messages.prompt.setCustomModelPrompt();
+			}
+
+			updateConfig({ model, apiKey, url, backend });
+
+			messages.info.backend(backend);
+			messages.info.url(url);
+			messages.info.apiKey(apiKey ?? "none");
 			messages.info.model(model);
 			return;
 		}
