@@ -23,10 +23,11 @@ async function overwriteApiKeyPrompt() {
 }
 
 async function setApiKeyPrompt(initialValue = "") {
-	return await consola.prompt("Enter your Perplexity AI API key:", {
+	return await consola.prompt("Enter your API key:", {
 		type: "text",
 		placeholder: "API key",
 		initial: initialValue,
+		default: "",
 	});
 }
 

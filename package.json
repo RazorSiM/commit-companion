@@ -5,23 +5,13 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"keywords": [
-		"commit",
-		"git",
-		"message",
-		"ai",
-		"perplexity",
-		"api",
-		"cli"
-	],
+	"keywords": ["commit", "git", "message", "ai", "perplexity", "api", "cli"],
 	"homepage": "https://github.com/RazorSiM/commit-companion",
 	"repository": "RazorSiM/commit-companion",
 	"author": "Simone Colabufalo",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"bin": {
 		"commit-companion": "dist/cli.js",
 		"cmt": "dist/cli.js"
@@ -43,20 +33,16 @@
 		"@changesets/cli": "^2.27.1",
 		"@evilmartians/lefthook": "^1.6.10",
 		"@types/node": "^20.12.7",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.5",
 		"citty": "^0.1.6",
 		"consola": "^3.2.3",
 		"execa": "^8.0.1",
 		"rc9": "^2.1.2",
-		"tsup": "^8.0.2",
-		"typescript": "^5.4.5"
+		"openai": "^4.33.0"
 	},
 	"packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589",
 	"release": {
-		"branches": [
-			"main"
-		]
-	},
-	"dependencies": {
-		"openai": "^4.33.0"
+		"branches": ["main"]
 	}
 }
