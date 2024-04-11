@@ -1,5 +1,11 @@
 # @razorsim/commit-companion
 
+## 1.0.1
+
+### Patch Changes
+
+- 9700caa: add a default value for the api key in prompt
+
 ## 1.0.0
 
 ### Major Changes
