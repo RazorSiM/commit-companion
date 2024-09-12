@@ -14,7 +14,8 @@
 			"dist/**/*",
 			"build/**/*",
 			"coverage/**/*",
-			"docs/**/*"
+			"docs/**/*",
+			"package.json"
 		]
 	},
 	"linter": {
