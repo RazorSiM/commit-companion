@@ -22,14 +22,22 @@ export const generateCommand = defineCommand({
 		maxLen: {
 			type: "string",
 			description: "Max length of the commit message",
+			alias: "l",
 		},
 		semantic: {
 			type: "boolean",
 			description: "Use semantic commit message",
+			semantic: "s",
+		},
+		language: {
+			type: "string",
+			description: "Preferred language for the commit message",
+			alias: "lang",
 		},
 		debug: {
 			type: "boolean",
 			description: "Debug mode",
+			alias: "d",
 		},
 	},
 	async run({ args }) {
@@ -98,6 +106,7 @@ export const generateCommand = defineCommand({
 			maxLength: maxLen,
 			semantic,
 			model: config.model,
+			language: args.language ?? config.preferredLanguage ?? "english",
 		};
 
 		if (!config.url) {

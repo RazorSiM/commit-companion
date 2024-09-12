@@ -1,11 +1,10 @@
 const defaultUrl = "https://api.perplexity.ai/";
 
 const supportedModels = [
-	"sonar-small-chat",
-	"sonar-medium-chat",
-	"codellama-70b-instruct",
-	"mistral-7b-instruct",
-	"mixtral-8x7b-instruct",
+	"llama-3.1-8b-instruct",
+	"llama-3.1-70b-instruct",
+	"llama-3.1-sonar-small-128k-chat",
+	"llama-3.1-sonar-large-128k-chat",
 ] as const;
 
 export const PerplexityOptions = {

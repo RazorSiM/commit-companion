@@ -45,6 +45,21 @@ async function setOllamaModelPrompt() {
 	});
 }
 
+async function setOpenAiModelPrompt() {
+	return await consola.prompt("Please choose one of the `following models`:", {
+		type: "select",
+		options: [
+			"chatgpt-4o-latest",
+			"gpt-4o",
+			"gpt-4o-mini",
+			"gpt-4-turbo",
+			"gpt-4",
+			"gpt-3.5-turbo",
+			"custom",
+		],
+	});
+}
+
 async function setCustomModelPrompt() {
 	return await consola.prompt("Enter the custom model:", {
 		type: "text",
@@ -55,7 +70,7 @@ async function setCustomModelPrompt() {
 async function setBackendPrompt() {
 	return await consola.prompt("Please choose one of the following backends:", {
 		type: "select",
-		options: ["perplexity", "ollama", "custom"],
+		options: ["openai", "perplexity", "ollama", "custom"],
 	});
 }
 
@@ -101,18 +116,29 @@ async function setUrlPrompt(initialValue = "") {
 		initial: initialValue,
 	});
 }
+
 async function regenerate() {
 	return await consola.prompt("Would you like to regenerate the message?", {
 		type: "confirm",
 		initial: false,
 	});
 }
+
+async function preferredLanguagePrompt(initialValue = "english") {
+	return await consola.prompt("Enter your preferred commit message language:", {
+		type: "text",
+		placeholder: "Language",
+		initial: initialValue,
+	});
+}
+
 export const messages = {
 	prompt: {
 		overwriteApiKeyPrompt,
 		setApiKeyPrompt,
 		setPerplexityModelPrompt,
 		setOllamaModelPrompt,
+		setOpenAiModelPrompt,
 		setCustomModelPrompt,
 		setSemanticPrompt,
 		setMaxLenPrompt,
@@ -121,6 +147,7 @@ export const messages = {
 		stageFiles,
 		commitFiles,
 		regenerate,
+		preferredLanguagePrompt,
 	},
 	box: {
 		config: (config: unknown) => {

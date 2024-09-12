@@ -3,7 +3,23 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream";
 import { consola, messages } from "../consola";
 import { generatePrompt } from "../prompt";
 
-function getHeaders(authorization?: string) {
+const defaultUrl = "https://api.openai.com/v1/";
+
+const supportedModels = [
+	"chatgpt-4o-latest",
+	"gpt-4o",
+	"gpt-4o-mini",
+	"gpt-4-turbo",
+	"gpt-4",
+	"gpt-3.5-turbo",
+] as const;
+
+export const OpenAIOptions = {
+	defaultUrl: defaultUrl,
+	models: supportedModels,
+};
+
+export function getHeaders(authorization?: string) {
 	const headers: HeadersInit = {
 		accept: "application/json",
 		"content-type": "application/json",

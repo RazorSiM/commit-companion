@@ -2,12 +2,13 @@ import { readUser, updateUser } from "rc9";
 
 export const configName = ".commit-companion";
 
-export type BackendPrompt = "ollama" | "perplexity" | "custom";
+export type BackendPrompt = "ollama" | "perplexity" | "openai" | "custom";
 export interface UserConfiguration {
 	apiKey?: string;
 	model?: string;
 	backend?: BackendPrompt;
 	url?: string;
+	preferredLanguage?: string;
 }
 
 export function readConfig(): UserConfiguration {
