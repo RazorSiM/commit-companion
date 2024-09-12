@@ -30,7 +30,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.0",
-		"@changesets/cli": "^2.27.8",
 		"@evilmartians/lefthook": "^1.7.15",
 		"@types/node": "^20.12.7",
 		"citty": "^0.1.6",
