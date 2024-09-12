@@ -1,5 +1,23 @@
 # @razorsim/commit-companion
 
+## v1.1.0
+
+[compare changes](https://github.com/RazorSiM/commit-companion/compare/v1.0.1...v1.1.0)
+
+### 🚀 Enhancements
+
+- Support OpenAI provider ([#52](https://github.com/RazorSiM/commit-companion/pull/52))
+
+### 🏡 Chore
+
+- Add package.json to BiomeJS ignore ([2def630](https://github.com/RazorSiM/commit-companion/commit/2def630))
+- Add .npmrc ([47a7557](https://github.com/RazorSiM/commit-companion/commit/47a7557))
+
+### ❤️ Contributors
+
+- Raz ([@RazorSiM](http://github.com/RazorSiM))
+- Simone Colabufalo ([@RazorSiM](http://github.com/RazorSiM))
+
 ## 1.0.1
 
 ### Patch Changes
