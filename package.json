@@ -1,6 +1,6 @@
 {
 	"name": "@razorsim/commit-companion",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "AI commit messages from AI models",
 	"publishConfig": {
 		"access": "public"

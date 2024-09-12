@@ -1,5 +1,22 @@
 # @razorsim/commit-companion
 
+## v1.1.1
+
+[compare changes](https://github.com/RazorSiM/commit-companion/compare/v1.1.0...v1.1.1)
+
+### 🩹 Fixes
+
+- Remove dynamic version ([3e6d65b](https://github.com/RazorSiM/commit-companion/commit/3e6d65b))
+
+### 🏡 Chore
+
+- **release:** V1.1.0 ([6c82300](https://github.com/RazorSiM/commit-companion/commit/6c82300))
+- Change package.json description ([b41a39b](https://github.com/RazorSiM/commit-companion/commit/b41a39b))
+
+### ❤️ Contributors
+
+- Raz ([@RazorSiM](http://github.com/RazorSiM))
+
 ## v1.1.0
 
 [compare changes](https://github.com/RazorSiM/commit-companion/compare/v1.0.1...v1.1.0)

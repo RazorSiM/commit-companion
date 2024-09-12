@@ -6,6 +6,7 @@ export const main = defineCommand({
 	meta: {
 		name: "commit message companion",
 		description: "I will help you write beautiful commit messages through AI!",
+		version: "1.1.1",
 	},
 	subCommands: {
 		setup: () => import("./commands/setup").then((r) => r.setupCommand),
