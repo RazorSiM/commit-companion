@@ -3,7 +3,7 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream";
 import { consola, messages } from "../consola";
 import { generatePrompt } from "../prompt";
 
-const defaultUrl = "https://api.openai.com/v1/chat/completions";
+const defaultUrl = "https://api.openai.com/v1/";
 
 const supportedModels = [
 	"chatgpt-4o-latest",
