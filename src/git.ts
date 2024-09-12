@@ -1,5 +1,5 @@
 import { execa } from "execa";
-import { consola } from "./consola";
+
 export async function isGitRepo(): Promise<string> {
 	const { stdout, failed } = await execa(
 		"git",

@@ -7,7 +7,7 @@ import {
 } from "../config";
 import { consola } from "../consola";
 import { messages } from "../consola";
-import { OllamaOptions, PerplexityOptions } from "../sdk";
+import { OllamaOptions, OpenAIOptions, PerplexityOptions } from "../sdk";
 
 export const setupCommand = defineCommand({
 	meta: {
@@ -86,6 +86,12 @@ export const setupCommand = defineCommand({
 					model = await messages.prompt.setPerplexityModelPrompt();
 					break;
 				}
+				case "openai": {
+					url = await messages.prompt.setUrlPrompt(OpenAIOptions.defaultUrl);
+					apiKey = await messages.prompt.setApiKeyPrompt(config.apiKey);
+					model = await messages.prompt.setOpenAiModelPrompt();
+					break;
+				}
 				case "custom": {
 					url = await messages.prompt.setUrlPrompt();
 					apiKey = await messages.prompt.setApiKeyPrompt();
@@ -97,7 +103,9 @@ export const setupCommand = defineCommand({
 				model = await messages.prompt.setCustomModelPrompt();
 			}
 
-			updateConfig({ model, apiKey, url, backend });
+			const preferredLanguage = await messages.prompt.preferredLanguagePrompt();
+
+			updateConfig({ model, apiKey, url, backend, preferredLanguage });
 
 			messages.info.backend(backend);
 			messages.info.url(url);
